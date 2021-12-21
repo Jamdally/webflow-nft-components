@@ -15,8 +15,8 @@ const getMintPrice = async (tier) => {
     if (NFTContract.methods.cost) 
         return NFTContract.methods.cost().call();
     return tier ?
-        await NFTContract.methods.getMintPrice(tier).call() :
-        await NFTContract.methods.getMintPrice().call();
+        await NFTContract.methods.getPrice(tier).call() :
+        await NFTContract.methods.getPrice().call();
 }
 
 export const mint = async (nTokens, ref, tier) => {
