@@ -104,6 +104,11 @@ const getAmountofcinos = () => {
     return quantity !== '' ? quantity : undefined;
 }
 
+const getMintQuantity = () => {
+    const quantity = document.querySelector('#quantity-select')?.value
+    return quantity !== '' ? quantity : undefined;
+}
+
 const getMintReferral = () => {
     const searchParams = new URLSearchParams(window.location.search);
     return searchParams.get("ref");
