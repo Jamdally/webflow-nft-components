@@ -2,13 +2,31 @@ import {getWalletAddress, web3} from "../wallet.js";
 import { formatValue, parseTxError } from "../utils.js";
 import { NFTContract } from "../contract.js"
 
-const getMintTx = ({ numberOfTokens, ref, tier, wallet }) => {
+const getMintholderTx = ({ amountOfCinos, ref, tier, wallet }) => {
     if (tier !== undefined) {
-        return NFTContract.methods.mint(tier, numberOfTokens, ref ?? wallet);
+        return NFTContract.methods.mintHolder(tier, amountOfCinos, ref ?? wallet);
     }
-    return NFTContract.methods.mint(numberOfTokens);
+    return NFTContract.methods.mintHolder(amountOfCinos);
+}
+										
+const getMintpresaleTx = ({ amountOfCinos, ref, tier, wallet }) => {
+    if (tier !== undefined) {
+        return NFTContract.methods.mintPresale(tier, amountOfCinos, ref ?? wallet);
+    }
+    return NFTContract.methods.mintPresale(amountOfCinos);
 }
 
+const getMintTx = ({ amountOfCinos, ref, tier, wallet }) => {
+    if (tier !== undefined) {
+        return NFTContract.methods.mint(tier, amountOfCinos, ref ?? wallet);
+    }
+    return NFTContract.methods.mint(amountOfCinos);
+}
+	
+// mintHolder = CCC holder; cosmiccoffeeHolderprice
+// mintPresale = Pre-Sale; preSaleprice
+// mint = Public Sale; publicSaleprice		
+										
 const getMintholderPrice = async (tier) => {
     if (NFTContract.methods.cosmiccoffeeHolderprice)
         return NFTContract.methods.cosmiccoffeeHolderprice().call();
@@ -22,23 +40,19 @@ const getMintpresalePrice = async (tier) => {
 const getMintPrice = async (tier) => {
     if (NFTContract.methods.publicSaleprice)
         return NFTContract.methods.publicSaleprice().call();
-    if (NFTContract.methods.cost) 
-        return NFTContract.methods.cost().call();
-    return tier ?
-        await NFTContract.methods.getPrice(tier).call() :
-        await NFTContract.methods.getPrice().call();
 }
 
+// Holder claim
 export const mintHolder = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
-    const numberOfTokens = nTokens ?? 1;
+    const amountOfCinos = nTokens ?? 1;
     const mintHolderPrice = await getMintholderPrice(tier);
 
     const txParams = {
         from: wallet,
-        value: formatValue(Number(mintHolderPrice) * numberOfTokens),
+        value: formatValue(Number(mintHolderPrice) * amountOfCinos),
     }
-    const estimatedGas = await getMintTx({ numberOfTokens, ref, tier, wallet })
+    const estimatedGas = await getMintholderTx({ amountOfCinos, ref, tier, wallet })
         .estimateGas(txParams).catch((e) => {
             const { code, message } = parseTxError(e);
             if (code === -32000) {
@@ -57,14 +71,15 @@ export const mintHolder = async (nTokens, ref, tier) => {
         .send({...txParams, gasLimit: estimatedGas + 5000, maxFeePerGas })
 }
 
+// Pre-Sale 
 export const mintPresale = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
-    const numberOfTokens = nTokens ?? 1;
+    const amountOfCinos = nTokens ?? 1;
     const mintPresalePrice = await getMintpresalePrice(tier);
 
     const txParams = {
         from: wallet,
-        value: formatValue(Number(mintPresalePrice) * numberOfTokens),
+        value: formatValue(Number(mintPresalePrice) * amountOfCinos),
     }
     const estimatedGas = await getMintTx({ numberOfTokens, ref, tier, wallet })
         .estimateGas(txParams).catch((e) => {
@@ -85,6 +100,7 @@ export const mintPresale = async (nTokens, ref, tier) => {
         .send({...txParams, gasLimit: estimatedGas + 5000, maxFeePerGas })
 }
 
+// Public Sale 
 export const mint = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
     const numberOfTokens = nTokens ?? 1;
