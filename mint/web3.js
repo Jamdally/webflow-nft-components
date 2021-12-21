@@ -17,7 +17,9 @@ const getMintPrice = async (tier) => {
     if (NFTContract.methods.publicSaleprice)
         return NFTContract.methods.publicSaleprice().call();
     return tier ?
-        await NFTContract.methods.getPrice(tier).call() :
+        await NFTContract.methods.getPrice(cosmiccoffeeHolderprice).call() :
+        await NFTContract.methods.getPrice().call();
+        await NFTContract.methods.getPrice(preSaleprice).call() :
         await NFTContract.methods.getPrice().call();
 }
 
