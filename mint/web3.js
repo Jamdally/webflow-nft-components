@@ -11,7 +11,7 @@ const getMintTx = ({ numberOfTokens, ref, tier, wallet }) => {
 
 const getMintPrice = async (tier) => {
     if (NFTContract.methods.cosmiccoffeeHolderprice)
-        return NFTContract.methods.price().cosmiccoffeeHolderprice();
+        return NFTContract.methods.cosmiccoffeeHolderprice().call();
     return tier ?
         await NFTContract.methods.getPrice(tier).call() :
         await NFTContract.methods.getPrice().call();
