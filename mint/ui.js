@@ -3,7 +3,7 @@ import { showAlert } from "../ui/alerts.js";
 import { parseTxError } from "../utils.js";
 
 export const updateMintButton = () => {
-    const mintButton = document.querySelector('#mint-button');
+    const mintButton = document.querySelector('#ccc-mint-button');
     if (mintButton) {
         mintButton.onclick = async () => {
             const initialBtnText = mintButton.textContent;
