@@ -8,7 +8,8 @@ export const init = async () => {
     await updateWalletStatus();
     await setContracts();
     updateConnectButton();
-    updateMintButton();
+    updateCCCMintButton();
+    updatePreSaleMintButton();
     updateMintByTierButtons();
 }
 
