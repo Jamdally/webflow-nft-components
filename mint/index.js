@@ -1,13 +1,15 @@
-import {updateMintButton, updateMintByTierButtons} from "./ui.js";
-import { updateConnectButton, updateWalletStatus } from "../wallet.js";
-import { setContracts } from "../contract.js";
-import { renderAlertContainer } from "../ui/alerts.js";
+import {updateMintButton, updatePresaleButton, updateHolderButton, updateMintByTierButtons} from "./ui.js";
+import { updateConnectButton, updateWalletStatus } from "./wallet.js";
+import { setContracts } from "./contract.js";
+import { renderAlertContainer } from "./alerts.js";
 
 export const init = async () => {
     renderAlertContainer();
     await updateWalletStatus();
     await setContracts();
     updateConnectButton();
+    updateHolderButton();
+    updatePresaleButton();
     updateMintButton();	
     updateMintByTierButtons();
 }
