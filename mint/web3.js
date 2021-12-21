@@ -10,12 +10,10 @@ const getMintTx = ({ numberOfTokens, ref, tier, wallet }) => {
 }
 
 const getMintPrice = async (tier) => {
-    if (NFTContract.methods.price)
-        return NFTContract.methods.price().call();
-    if (NFTContract.methods.cost) 
-        return NFTContract.methods.cost().call();
     if (NFTContract.methods.publicSaleprice)
         return NFTContract.methods.publicSaleprice().call();
+    if (NFTContract.methods.cost) 
+        return NFTContract.methods.cost().call();
     return tier ?
         await NFTContract.methods.getPrice(tier).call() :
         await NFTContract.methods.getPrice().call();
@@ -48,4 +46,3 @@ export const mint = async (nTokens, ref, tier) => {
     return getMintTx({ numberOfTokens, ref, tier, wallet })
         .send({...txParams, gasLimit: estimatedGas + 5000, maxFeePerGas })
 }
-
