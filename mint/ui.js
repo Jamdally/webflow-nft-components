@@ -68,4 +68,3 @@ const setButtonText = (btn, text) => {
         btn.textContent = text;
     }
 }
-
