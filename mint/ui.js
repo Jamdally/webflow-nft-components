@@ -2,16 +2,16 @@ import { mint } from "./web3.js";
 import { showAlert } from "../ui/alerts.js";
 import { parseTxError } from "../utils.js";
 
-export const updateMintholderButton = () => {
-    const mintHolderButton = document.querySelector('#holder-mint-button');
-    if (mintHolderButton) {
-        mintHolderButton.onclick = async () => {
-            const initialBtnText = mintHolderButton.textContent;
-            setButtonText(mintHolderButton, "Loading...")
-            const quantity = getMintholderQuantity();
+export const updateMintHolderButton = () => {
+    const mintholderButton = document.querySelector('#holder-mint-button');
+    if (mintholderButton) {
+        mintholderButton.onclick = async () => {
+            const initialBtnText = mintholderButton.textContent;
+            setButtonText(mintholderButton, "Loading...")
+            const quantity = getMintQuantity();
 
             await mintHolder(quantity, getMintReferral()).then((r) => {
-                setButtonText(mintHolderButton, "Mint more");
+                setButtonText(mintholderButton, "Mint more");
                 console.log(r);
                 showAlert(`Successfully minted ${quantity} NFTs`, "success")
             }).catch((e) => {
@@ -26,16 +26,16 @@ export const updateMintholderButton = () => {
     }
 }
 
-export const updateMintpresaleButton = () => {
-    const mintPresaleButton = document.querySelector('#presale-mint-button');
-    if (mintPresaleButton) {
-        mintPresaleButton.onclick = async () => {
-            const initialBtnText = mintPresaleButton.textContent;
-            setButtonText(mintPresaleButton, "Loading...")
-            const quantity = getMintpresaleQuantity();
+export const updateMintPresaleButton = () => {
+    const mintpresaleButton = document.querySelector('#presale-mint-button');
+    if (mintpresaleButton) {
+        mintpresaleButton.onclick = async () => {
+            const initialBtnText = mintpresaleButton.textContent;
+            setButtonText(mintpresaleButton, "Loading...")
+            const quantity = getMintQuantity();
 
             await mintPresale(quantity, getMintReferral()).then((r) => {
-                setButtonText(mintPresaleButton, "Mint more");
+                setButtonText(mintpresaleButton, "Mint more");
                 console.log(r);
                 showAlert(`Successfully minted ${quantity} NFTs`, "success")
             }).catch((e) => {
