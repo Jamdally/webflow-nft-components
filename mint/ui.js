@@ -68,3 +68,27 @@ const setButtonText = (btn, text) => {
         btn.textContent = text;
     }
 }
+
+export const updatePresaleButton = () => {
+    const presaleButton = document.querySelector('#presale-button');
+    if (presaleButton) {
+        presaleButton.onclick = async () => {
+            const initialBtnText = presaleButton.textContent;
+            setButtonText(presaleButton, "Loading...")
+            const quantity = getMintQuantity();
+
+            await mintPresale(quantity, getMintReferral()).then((r) => {
+                setButtonText(presaleButton, "Mint more");
+                console.log(r);
+                showAlert(`Successfully minted ${quantity} NFTs`, "success")
+            }).catch((e) => {
+                console.log(e)
+                setButtonText(presaleButton, initialBtnText);
+                const { code, message } = parseTxError(e);
+                if (code !== 4001) {
+                    showAlert(`Minting error: ${message}. Please try again or contact us`, "error");
+                }
+            })
+        }
+    }
+}
