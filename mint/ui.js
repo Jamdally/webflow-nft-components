@@ -2,7 +2,7 @@ import { mint } from "./web3.js";
 import { showAlert } from "../ui/alerts.js";
 import { parseTxError } from "../utils.js";
 
-export const updateMintButton = () => {
+export const updateCCCMintButton = () => {
     const mintButton = document.querySelector('#ccc-mint-button');
     if (mintButton) {
         mintButton.onclick = async () => {
@@ -26,7 +26,7 @@ export const updateMintButton = () => {
     }
 }
 
-export const updateMintButton = () => {
+export const updatePreSaleMintButton = () => {
     const mintButton = document.querySelector('#presale-mint-button');
     if (mintButton) {
         mintButton.onclick = async () => {
