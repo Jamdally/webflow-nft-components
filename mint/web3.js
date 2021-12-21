@@ -26,16 +26,27 @@ const getMintTx = ({ numberOfTokens, ref, tier, wallet }) => {
 const getMintholderPrice = async (tier) => {
     if (NFTContract.methods.cosmiccoffeeHolderprice)
         return NFTContract.methods.cosmiccoffeeHolderprice().call();
+    return tier ?
+        await NFTContract.methods.getPrice(tier).call() :
+        await NFTContract.methods.getPrice().call();
 }
 										
 const getMintpresalePrice = async (tier) => {
     if (NFTContract.methods.preSaleprice)
         return NFTContract.methods.preSaleprice().call();
+    return tier ?
+        await NFTContract.methods.getPrice(tier).call() :
+        await NFTContract.methods.getPrice().call();
 }
 										
 const getMintPrice = async (tier) => {
     if (NFTContract.methods.publicSaleprice)
         return NFTContract.methods.publicSaleprice().call();
+    if (NFTContract.methods.cost) 
+        return NFTContract.methods.cost().call();
+    return tier ?
+        await NFTContract.methods.getPrice(tier).call() :
+        await NFTContract.methods.getPrice().call();
 }
 
 export const mintHolder = async (nTokens, ref, tier) => {
