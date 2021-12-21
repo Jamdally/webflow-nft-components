@@ -21,11 +21,7 @@ const getMintTx = ({ amountOfCinos, ref, tier, wallet }) => {
         return NFTContract.methods.mint(tier, amountOfCinos, ref ?? wallet);
     }
     return NFTContract.methods.mint(amountOfCinos);
-}
-	
-// mintHolder = CCC holder; cosmiccoffeeHolderprice
-// mintPresale = Pre-Sale; preSaleprice
-// mint = Public Sale; publicSaleprice		
+}	
 										
 const getMintholderPrice = async (tier) => {
     if (NFTContract.methods.cosmiccoffeeHolderprice)
@@ -42,7 +38,6 @@ const getMintPrice = async (tier) => {
         return NFTContract.methods.publicSaleprice().call();
 }
 
-// Holder claim
 export const mintHolder = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
     const amountOfCinos = nTokens ?? 1;
@@ -71,7 +66,6 @@ export const mintHolder = async (nTokens, ref, tier) => {
         .send({...txParams, gasLimit: estimatedGas + 5000, maxFeePerGas })
 }
 
-// Pre-Sale 
 export const mintPresale = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
     const amountOfCinos = nTokens ?? 1;
@@ -100,7 +94,6 @@ export const mintPresale = async (nTokens, ref, tier) => {
         .send({...txParams, gasLimit: estimatedGas + 5000, maxFeePerGas })
 }
 
-// Public Sale 
 export const mint = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
     const numberOfTokens = nTokens ?? 1;
