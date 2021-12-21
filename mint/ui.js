@@ -8,7 +8,7 @@ export const updateMintholderButton = () => {
         mintHolderButton.onclick = async () => {
             const initialBtnText = mintHolderButton.textContent;
             setButtonText(mintHolderButton, "Loading...")
-            const quantity = getMintholderQuantity();
+            const quantity = getMintQuantity();
 
             await mintHolder(quantity, getMintReferral()).then((r) => {
                 setButtonText(mintHolderButton, "Mint more");
@@ -32,7 +32,7 @@ export const updateMintpresaleButton = () => {
         mintPresaleButton.onclick = async () => {
             const initialBtnText = mintPresaleButton.textContent;
             setButtonText(mintPresaleButton, "Loading...")
-            const quantity = getMintpresaleQuantity();
+            const quantity = getMintQuantity();
 
             await mintPresale(quantity, getMintReferral()).then((r) => {
                 setButtonText(mintPresaleButton, "Mint more");
