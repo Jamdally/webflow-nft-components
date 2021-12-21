@@ -1,4 +1,4 @@
-import { mint } from "./web3.js";
+import { mint, mintPresale, mintHolder } from "./web3.js";
 import { showAlert } from "../ui/alerts.js";
 import { parseTxError } from "../utils.js";
 
@@ -51,24 +51,6 @@ export const updateMintByTierButtons = () => {
     })
 }
 
-const getMintQuantity = () => {
-    const quantity = document.querySelector('#quantity-select')?.value
-    return quantity !== '' ? quantity : undefined;
-}
-
-const getMintReferral = () => {
-    const searchParams = new URLSearchParams(window.location.search);
-    return searchParams.get("ref");
-}
-
-const setButtonText = (btn, text) => {
-    if (btn.childElementCount > 0) {
-        btn.children[0].textContent = text;
-    } else {
-        btn.textContent = text;
-    }
-}
-
 export const updatePresaleButton = () => {
     const presaleButton = document.querySelector('#presale-button');
     if (presaleButton) {
@@ -92,3 +74,22 @@ export const updatePresaleButton = () => {
         }
     }
 }
+
+const getMintQuantity = () => {
+    const quantity = document.querySelector('#quantity-select')?.value
+    return quantity !== '' ? quantity : undefined;
+}
+
+const getMintReferral = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    return searchParams.get("ref");
+}
+
+const setButtonText = (btn, text) => {
+    if (btn.childElementCount > 0) {
+        btn.children[0].textContent = text;
+    } else {
+        btn.textContent = text;
+    }
+}
+
