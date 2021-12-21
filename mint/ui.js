@@ -2,6 +2,54 @@ import { mint } from "./web3.js";
 import { showAlert } from "../ui/alerts.js";
 import { parseTxError } from "../utils.js";
 
+export const updateMintholderButton = () => {
+    const mintHolderButton = document.querySelector('#holder-mint-button');
+    if (mintHolderButton) {
+        mintHolderButton.onclick = async () => {
+            const initialBtnText = mintHolderButton.textContent;
+            setButtonText(mintHolderButton, "Loading...")
+            const quantity = getMintholderQuantity();
+
+            await mintHolder(quantity, getMintReferral()).then((r) => {
+                setButtonText(mintHolderButton, "Mint more");
+                console.log(r);
+                showAlert(`Successfully minted ${quantity} NFTs`, "success")
+            }).catch((e) => {
+                console.log(e)
+                setButtonText(mintHolderButton, initialBtnText);
+                const { code, message } = parseTxError(e);
+                if (code !== 4001) {
+                    showAlert(`Minting error: ${message}. Please try again or contact us`, "error");
+                }
+            })
+        }
+    }
+}
+
+export const updateMintpresaleButton = () => {
+    const mintPresaleButton = document.querySelector('#presale-mint-button');
+    if (mintPresaleButton) {
+        mintPresaleButton.onclick = async () => {
+            const initialBtnText = mintPresaleButton.textContent;
+            setButtonText(mintPresaleButton, "Loading...")
+            const quantity = getMintpresaleQuantity();
+
+            await mintPresale(quantity, getMintReferral()).then((r) => {
+                setButtonText(mintPresaleButton, "Mint more");
+                console.log(r);
+                showAlert(`Successfully minted ${quantity} NFTs`, "success")
+            }).catch((e) => {
+                console.log(e)
+                setButtonText(mintPresaleButton, initialBtnText);
+                const { code, message } = parseTxError(e);
+                if (code !== 4001) {
+                    showAlert(`Minting error: ${message}. Please try again or contact us`, "error");
+                }
+            })
+        }
+    }
+}
+
 export const updateMintButton = () => {
     const mintButton = document.querySelector('#mint-button');
     if (mintButton) {
