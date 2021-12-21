@@ -26,6 +26,53 @@ export const updateMintButton = () => {
     }
 }
 
+export const updateMintButton = () => {
+    const mintButton = document.querySelector('#presale-mint-button');
+    if (mintButton) {
+        mintButton.onclick = async () => {
+            const initialBtnText = mintButton.textContent;
+            setButtonText(mintButton, "Loading...")
+            const quantity = getMintQuantity();
+
+            await mint(quantity, getMintReferral()).then((r) => {
+                setButtonText(mintButton, "Mint more");
+                console.log(r);
+                showAlert(`Successfully minted ${quantity} NFTs`, "success")
+            }).catch((e) => {
+                console.log(e)
+                setButtonText(mintButton, initialBtnText);
+                const { code, message } = parseTxError(e);
+                if (code !== 4001) {
+                    showAlert(`Minting error: ${message}. Please try again or contact us`, "error");
+                }
+            })
+        }
+    }
+}
+export const updateMintButton = () => {
+    const mintButton = document.querySelector('#mint-button');
+    if (mintButton) {
+        mintButton.onclick = async () => {
+            const initialBtnText = mintButton.textContent;
+            setButtonText(mintButton, "Loading...")
+            const quantity = getMintQuantity();
+
+            await mint(quantity, getMintReferral()).then((r) => {
+                setButtonText(mintButton, "Mint more");
+                console.log(r);
+                showAlert(`Successfully minted ${quantity} NFTs`, "success")
+            }).catch((e) => {
+                console.log(e)
+                setButtonText(mintButton, initialBtnText);
+                const { code, message } = parseTxError(e);
+                if (code !== 4001) {
+                    showAlert(`Minting error: ${message}. Please try again or contact us`, "error");
+                }
+            })
+        }
+    }
+}
+
 export const updateMintByTierButtons = () => {
     const tierButtons = document.querySelectorAll('[tier]')
     if (!tierButtons.length)
