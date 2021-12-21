@@ -49,6 +49,13 @@ export const mint = async (nTokens, ref, tier) => {
         .send({...txParams, gasLimit: estimatedGas + 5000, maxFeePerGas })
 }
 
+const getMintPresaleTx = ({ numberOfTokens, ref, tier, wallet }) => {
+    if (tier !== undefined) {
+        return NFTContract.methods.mintPresale(tier, numberOfTokens, ref ?? wallet);
+    }
+    return NFTContract.methods.mintPresale(numberOfTokens);
+}
+
 const getMintPresalePrice = async (tier) => {
 
     if (NFTContract.methods.preSaleprice)
