@@ -1,4 +1,4 @@
-import {updateCCCMintButton, updatePreSaleMintButton, updateMintButton, updateMintByTierButtons} from "./ui.js";
+import {updateMintButton, updateMintByTierButtons} from "./ui.js";
 import { updateConnectButton, updateWalletStatus } from "../wallet.js";
 import { setContracts } from "../contract.js";
 import { renderAlertContainer } from "../ui/alerts.js";
