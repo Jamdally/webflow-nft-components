@@ -2,9 +2,16 @@ import {getWalletAddress, web3} from "../wallet.js";
 import { formatValue, parseTxError } from "../utils.js";
 import { NFTContract } from "../contract.js"
 
+const getMintTx = ({ numberOfTokens, ref, tier, wallet }) => {
+    if (tier !== undefined) {
+        return NFTContract.methods.mint(tier, numberOfTokens, ref ?? wallet);
+    }
+    return NFTContract.methods.mint(numberOfTokens);
+}
+
 const getMintPrice = async (tier) => {
     if (NFTContract.methods.price)
-        return NFTContract.methods.cosmiccoffeeHolderprice().call();
+        return NFTContract.methods.price().call();
     if (NFTContract.methods.cost) 
         return NFTContract.methods.cost().call();
     return tier ?
