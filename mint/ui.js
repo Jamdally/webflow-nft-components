@@ -8,7 +8,7 @@ export const updateMintholderButton = () => {
         mintHolderButton.onclick = async () => {
             const initialBtnText = mintHolderButton.textContent;
             setButtonText(mintHolderButton, "Loading...")
-            const quantity = getAmountofcinos();
+            const quantity = getMintQuantity();
 
             await mintHolder(quantity, getMintReferral()).then((r) => {
                 setButtonText(mintHolderButton, "Mint more");
@@ -32,7 +32,7 @@ export const updateMintpresaleButton = () => {
         mintPresaleButton.onclick = async () => {
             const initialBtnText = mintPresaleButton.textContent;
             setButtonText(mintPresaleButton, "Loading...")
-            const quantity = getAmountofcinos();
+            const quantity = getMintQuantity();
 
             await mintPresale(quantity, getMintReferral()).then((r) => {
                 setButtonText(mintPresaleButton, "Mint more");
@@ -56,7 +56,7 @@ export const updateMintButton = () => {
         mintButton.onclick = async () => {
             const initialBtnText = mintButton.textContent;
             setButtonText(mintButton, "Loading...")
-            const quantity = getAmountofcinos();
+            const quantity = getMintQuantity();
 
             await mint(quantity, getMintReferral()).then((r) => {
                 setButtonText(mintButton, "Mint more");
@@ -74,6 +74,7 @@ export const updateMintButton = () => {
     }
 }
 
+//Tiers - not sure what's up with these ones but will keep just in case
 export const updateMintByTierButtons = () => {
     const tierButtons = document.querySelectorAll('[tier]')
     if (!tierButtons.length)
@@ -99,10 +100,6 @@ export const updateMintByTierButtons = () => {
     })
 }
 
-const getAmountofcinos = () => {
-    const quantity = document.querySelector('#quantity-select')?.value
-    return quantity !== '' ? quantity : undefined;
-}
 
 const getMintQuantity = () => {
     const quantity = document.querySelector('#quantity-select')?.value
