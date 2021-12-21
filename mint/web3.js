@@ -2,14 +2,14 @@ import {getWalletAddress, web3} from "../wallet.js";
 import { formatValue, parseTxError } from "../utils.js";
 import { NFTContract } from "../contract.js"
 
-const getMintholderTx = ({ numberOfTokens, ref, tier, wallet }) => {
+const getMintHolderTx = ({ numberOfTokens, ref, tier, wallet }) => {
     if (tier !== undefined) {
         return NFTContract.methods.mintHolder(tier, numberOfTokens, ref ?? wallet);
     }
     return NFTContract.methods.mintHolder(numberOfTokens);
 }
 										
-const getMintpresaleTx = ({ numberOfTokens, ref, tier, wallet }) => {
+const getMintPresaleTx = ({ numberOfTokens, ref, tier, wallet }) => {
     if (tier !== undefined) {
         return NFTContract.methods.mintPresale(tier, numberOfTokens, ref ?? wallet);
     }
@@ -52,13 +52,13 @@ const getMintPrice = async (tier) => {
 export const mintHolder = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
     const numberOfTokens = nTokens ?? 1;
-    const mintHolderPrice = await getMintholderPrice(tier);
+    const mintPrice = await getMintHolderPrice(tier);
 
     const txParams = {
         from: wallet,
         value: formatValue(Number(mintHolderPrice) * numberOfTokens),
     }
-    const estimatedGas = await getMintholderTx({ numberOfTokens, ref, tier, wallet })
+    const estimatedGas = await getMintHolderTx({ numberOfTokens, ref, tier, wallet })
         .estimateGas(txParams).catch((e) => {
             const { code, message } = parseTxError(e);
             if (code === -32000) {
@@ -73,20 +73,20 @@ export const mintHolder = async (nTokens, ref, tier) => {
     const chainID = await web3.eth.getChainId();
     const maxFeePerGas = [1, 4].includes(chainID) ? formatValue(maxGasPrice) : undefined;
 
-    return getMintTx({ numberOfTokens, ref, tier, wallet })
+    return getMintHolderTx({ numberOfTokens, ref, tier, wallet })
         .send({...txParams, gasLimit: estimatedGas + 5000, maxFeePerGas })
 }
 
 export const mintPresale = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
     const numberOfTokens = nTokens ?? 1;
-    const mintPresalePrice = await getMintpresalePrice(tier);
+    const mintPrice = await getMintPresalePrice(tier);
 
     const txParams = {
         from: wallet,
         value: formatValue(Number(mintPresalePrice) * numberOfTokens),
     }
-    const estimatedGas = await getMintTx({ numberOfTokens, ref, tier, wallet })
+    const estimatedGas = await getMintPresaleTx({ numberOfTokens, ref, tier, wallet })
         .estimateGas(txParams).catch((e) => {
             const { code, message } = parseTxError(e);
             if (code === -32000) {
@@ -101,7 +101,7 @@ export const mintPresale = async (nTokens, ref, tier) => {
     const chainID = await web3.eth.getChainId();
     const maxFeePerGas = [1, 4].includes(chainID) ? formatValue(maxGasPrice) : undefined;
 
-    return getMintTx({ numberOfTokens, ref, tier, wallet })
+    return getMintPresaleTx({ numberOfTokens, ref, tier, wallet })
         .send({...txParams, gasLimit: estimatedGas + 5000, maxFeePerGas })
 }
 
