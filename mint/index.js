@@ -10,6 +10,7 @@ export const init = async () => {
     updateConnectButton();
     updateCCCMintButton();
     updatePreSaleMintButton();
+    updateMintButton();
     updateMintByTierButtons();
 }
 
