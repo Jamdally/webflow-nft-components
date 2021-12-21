@@ -2,25 +2,25 @@ import {getWalletAddress, web3} from "../wallet.js";
 import { formatValue, parseTxError } from "../utils.js";
 import { NFTContract } from "../contract.js"
 
-const getMintholderTx = ({ amountOfCinos, ref, tier, wallet }) => {
+const getMintholderTx = ({ numberOfTokens, ref, tier, wallet }) => {
     if (tier !== undefined) {
-        return NFTContract.methods.mintHolder(tier, amountOfCinos, ref ?? wallet);
+        return NFTContract.methods.mintHolder(tier, numberOfTokens, ref ?? wallet);
     }
-    return NFTContract.methods.mintHolder(amountOfCinos);
+    return NFTContract.methods.mintHolder(numberOfTokens);
 }
 										
-const getMintpresaleTx = ({ amountOfCinos, ref, tier, wallet }) => {
+const getMintpresaleTx = ({ numberOfTokens, ref, tier, wallet }) => {
     if (tier !== undefined) {
-        return NFTContract.methods.mintPresale(tier, amountOfCinos, ref ?? wallet);
+        return NFTContract.methods.mintPresale(tier, numberOfTokens, ref ?? wallet);
     }
-    return NFTContract.methods.mintPresale(amountOfCinos);
+    return NFTContract.methods.mintPresale(numberOfTokens);
 }
 
-const getMintTx = ({ amountOfCinos, ref, tier, wallet }) => {
+const getMintTx = ({ numberOfTokens, ref, tier, wallet }) => {
     if (tier !== undefined) {
-        return NFTContract.methods.mint(tier, amountOfCinos, ref ?? wallet);
+        return NFTContract.methods.mint(tier, numberOfTokens, ref ?? wallet);
     }
-    return NFTContract.methods.mint(amountOfCinos);
+    return NFTContract.methods.mint(numberOfTokens);
 }	
 										
 const getMintholderPrice = async (tier) => {
@@ -40,14 +40,14 @@ const getMintPrice = async (tier) => {
 
 export const mintHolder = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
-    const amountOfCinos = nTokens ?? 1;
+    const numberOfTokens = nTokens ?? 1;
     const mintHolderPrice = await getMintholderPrice(tier);
 
     const txParams = {
         from: wallet,
-        value: formatValue(Number(mintHolderPrice) * amountOfCinos),
+        value: formatValue(Number(mintHolderPrice) * numberOfTokens),
     }
-    const estimatedGas = await getMintholderTx({ amountOfCinos, ref, tier, wallet })
+    const estimatedGas = await getMintholderTx({ numberOfTokens, ref, tier, wallet })
         .estimateGas(txParams).catch((e) => {
             const { code, message } = parseTxError(e);
             if (code === -32000) {
@@ -68,12 +68,12 @@ export const mintHolder = async (nTokens, ref, tier) => {
 
 export const mintPresale = async (nTokens, ref, tier) => {
     const wallet = await getWalletAddress();
-    const amountOfCinos = nTokens ?? 1;
+    const numberOfTokens = nTokens ?? 1;
     const mintPresalePrice = await getMintpresalePrice(tier);
 
     const txParams = {
         from: wallet,
-        value: formatValue(Number(mintPresalePrice) * amountOfCinos),
+        value: formatValue(Number(mintPresalePrice) * numberOfTokens),
     }
     const estimatedGas = await getMintTx({ numberOfTokens, ref, tier, wallet })
         .estimateGas(txParams).catch((e) => {
