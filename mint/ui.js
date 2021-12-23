@@ -57,7 +57,7 @@ export const updatePresaleButton = () => {
         presaleButton.onclick = async () => {
             const initialBtnText = presaleButton.textContent;
             setButtonText(presaleButton, "Loading...")
-            const quantity = getMintQuantity();
+            const quantity = getMintPresaleQuantity();
 
             await mintPresale(quantity, getMintReferral()).then((r) => {
                 setButtonText(presaleButton, "Mint more");
@@ -81,7 +81,7 @@ export const updateHolderButton = () => {
         holderButton.onclick = async () => {
             const initialBtnText = holderButton.textContent;
             setButtonText(holderButton, "Loading...")
-            const quantity = getMintQuantity();
+            const quantity = getMintHolderQuantity();
 
             await mintHolder(quantity, getMintReferral()).then((r) => {
                 setButtonText(holderButton, "Mint more");
@@ -101,6 +101,16 @@ export const updateHolderButton = () => {
 
 const getMintQuantity = () => {
     const quantity = document.querySelector('#quantity-select')?.value
+    return quantity !== '' ? quantity : undefined;
+}
+
+const getMintPresaleQuantity = () => {
+    const quantity = document.querySelector('#quantity-select-presale')?.value
+    return quantity !== '' ? quantity : undefined;
+}
+
+const getMintHolderQuantity = () => {
+    const quantity = document.querySelector('#quantity-select-holder')?.value
     return quantity !== '' ? quantity : undefined;
 }
 
