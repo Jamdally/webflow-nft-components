@@ -57,12 +57,12 @@ export const updatePresaleButton = () => {
         presaleButton.onclick = async () => {
             const initialBtnText = presaleButton.textContent;
             setButtonText(presaleButton, "Loading...")
-            const quantity = getMintPresaleQuantity();
+            const presalequantity = getMintPresaleQuantity();
 
-            await mintPresale(quantity, getMintReferral()).then((r) => {
+            await mintPresale(presalequantity, getMintReferral()).then((r) => {
                 setButtonText(presaleButton, "Mint more");
                 console.log(r);
-                showAlert(`Successfully minted ${quantity} NFTs`, "success")
+                showAlert(`Successfully minted ${presalequantity} NFTs`, "success")
             }).catch((e) => {
                 console.log(e)
                 setButtonText(presaleButton, initialBtnText);
@@ -81,12 +81,12 @@ export const updateHolderButton = () => {
         holderButton.onclick = async () => {
             const initialBtnText = holderButton.textContent;
             setButtonText(holderButton, "Loading...")
-            const quantity = getMintHolderQuantity();
+            const holderquantity = getMintHolderQuantity();
 
-            await mintHolder(quantity, getMintReferral()).then((r) => {
+            await mintHolder(holderquantity, getMintReferral()).then((r) => {
                 setButtonText(holderButton, "Mint more");
                 console.log(r);
-                showAlert(`Successfully minted ${quantity} NFTs`, "success")
+                showAlert(`Successfully minted ${holderquantity} NFTs`, "success")
             }).catch((e) => {
                 console.log(e)
                 setButtonText(holderButton, initialBtnText);
@@ -105,13 +105,13 @@ const getMintQuantity = () => {
 }
 
 const getMintPresaleQuantity = () => {
-    const quantity = document.querySelector('#quantity-select-presale')?.value
-    return quantity !== '' ? quantity : undefined;
+    const presalequantity = document.querySelector('#quantity-select-presale')?.value
+    return presalequantity !== '' ? presalequantity : undefined;
 }
 
 const getMintHolderQuantity = () => {
-    const quantity = document.querySelector('#quantity-select-holder')?.value
-    return quantity !== '' ? quantity : undefined;
+    const holderquantity = document.querySelector('#quantity-select-holder')?.value
+    return holderquantity !== '' ? holderquantity : undefined;
 }
 
 const getMintReferral = () => {
